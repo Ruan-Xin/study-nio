@@ -45,7 +45,7 @@ class MyByteBuffer {
                 rbtbuffer_all.reset();
 
                 rbtbuffer_all.compareTo(rbtbuffer_allDir);
-                
+
                 rbtbuffer_all.equals(rbtbuffer_allDir);
             }
 
