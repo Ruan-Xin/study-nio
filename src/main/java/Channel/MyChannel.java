@@ -2,8 +2,8 @@ package Channel;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
-import java.net.ServerSocket;
 import java.nio.ByteBuffer;
+import java.nio.channels.DatagramChannel;
 import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
 
@@ -14,6 +14,31 @@ import java.nio.channels.SocketChannel;
  */
 public class MyChannel {
 
+    //udp channel
+    public void datagramChannelDemo () {
+        DatagramChannel datagramChannel = null;
+        try {
+            datagramChannel = DatagramChannel.open();
+            datagramChannel.socket().bind(new InetSocketAddress(9999));
+            //receive data
+            ByteBuffer buffer = ByteBuffer.allocate(48);
+            buffer.clear();
+            datagramChannel.receive(buffer);
+
+            // send data
+            String sendData = "this is send data";
+            ByteBuffer buf = ByteBuffer.allocate(48);
+            buf.put(sendData.getBytes());
+            buf.flip();
+
+            int bytesSent = datagramChannel.send(buf, new InetSocketAddress("https://www.baidu.com", 80));
+
+            //there is no connecting and then the server may wont response.
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
     public void serverSocketChannelDemo() {
         ServerSocketChannel serverSocketChannel = null;
 
