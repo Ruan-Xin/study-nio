@@ -2,7 +2,9 @@ package Channel;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
+import java.net.ServerSocket;
 import java.nio.ByteBuffer;
+import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
 
 /**
@@ -13,8 +15,46 @@ import java.nio.channels.SocketChannel;
 public class MyChannel {
 
     public void serverSocketChannelDemo() {
-        
+        ServerSocketChannel serverSocketChannel = null;
+
+        try {
+            // -------------------- this is blocking mode ------------
+            //open the serverSocketChannel
+            serverSocketChannel = ServerSocketChannel.open();
+            serverSocketChannel.socket().bind(new InetSocketAddress(9999));
+
+            while (true) {
+                //
+                SocketChannel socketChannel = serverSocketChannel.accept();
+                //do something with the socketChannel
+
+                //to reach next demo, and order to delete the error
+                break;
+            }
+
+            // -------------------- this is non-blocking mode --------
+            serverSocketChannel.configureBlocking(false);
+            while (true) {
+                SocketChannel socketChannel = serverSocketChannel.accept();
+
+                if (socketChannel != null) {
+                    // do something with thie socketChannel
+                }
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                //close the serverSocketChannel
+                serverSocketChannel.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
     }
+
     //socket channel
     public void socketChannelDemo() {
         SocketChannel socketChannel = null;
